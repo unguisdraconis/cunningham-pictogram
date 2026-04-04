@@ -515,11 +515,18 @@ const CunninghamPictogram = () => {
         boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
         border: "1px solid #eee",
         boxSizing: "border-box",
+        overflow: "hidden",
       }}
     >
       <svg
         ref={svgRef}
-        style={{ width: "100%", height: "100%", display: "block" }}
+        style={{
+          width: "100%",
+          height: "100%",
+          maxWidth: "100%",
+          maxHeight: "100%",
+          display: "block",
+        }}
       />
     </div>
   );
