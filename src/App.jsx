@@ -67,10 +67,10 @@ const CunninghamPictogram = () => {
     svg
       .append("text")
       .attr("x", totalWidth / 2)
-      .attr("y", 35)
+      .attr("y", 40)
       .attr("text-anchor", "middle")
       .attr("font-family", "'Georgia', 'Times New Roman', serif")
-      .attr("font-size", 22)
+      .attr("font-size", 28)
       .attr("font-weight", "bold")
       .attr("fill", "#1a1a2e")
       .text("Merce Cunningham Dance Company");
@@ -78,10 +78,10 @@ const CunninghamPictogram = () => {
     svg
       .append("text")
       .attr("x", totalWidth / 2)
-      .attr("y", 58)
+      .attr("y", 70)
       .attr("text-anchor", "middle")
       .attr("font-family", "'Georgia', 'Times New Roman', serif")
-      .attr("font-size", 13)
+      .attr("font-size", 16)
       .attr("fill", "#555")
       .text("Active Dancers by Sex & Premiered Works per Decade (1940s–2010s)");
 
@@ -324,9 +324,10 @@ const CunninghamPictogram = () => {
         .attr("text-anchor", "end")
         .attr("dominant-baseline", "middle")
         .attr("font-family", "'Helvetica Neue', Arial, sans-serif")
-        .attr("font-size", 14)
+        .attr("font-size", 16)
         .attr("font-weight", "bold")
-        .attr("fill", "#1a1a2e")
+        .attr("fill", "#0f172a")
+        .attr("letter-spacing", "0.5px")
         .text(d.decade);
 
       // Alternating row background
@@ -504,16 +505,22 @@ const CunninghamPictogram = () => {
   return (
     <div
       style={{
+        width: "100%",
         maxWidth: "860px",
+        height: "calc(100vh - 48px)",
         margin: "24px auto",
         padding: "16px",
         background: "#ffffff",
         borderRadius: "14px",
         boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
         border: "1px solid #eee",
+        boxSizing: "border-box",
       }}
     >
-      <svg ref={svgRef} />
+      <svg
+        ref={svgRef}
+        style={{ width: "100%", height: "100%", display: "block" }}
+      />
     </div>
   );
 };
