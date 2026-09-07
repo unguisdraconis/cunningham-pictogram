@@ -1,19 +1,19 @@
 import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
 
+const CHART_DATA = [
+  { decade: "1940s", female: 25, male: 5, works: 18 },
+  { decade: "1950s", female: 28, male: 9, works: 40 },
+  { decade: "1960s", female: 12, male: 13, works: 22 },
+  { decade: "1970s", female: 18, male: 15, works: 15 },
+  { decade: "1980s", female: 21, male: 12, works: 25 },
+  { decade: "1990s", female: 16, male: 14, works: 18 },
+  { decade: "2000s", female: 16, male: 17, works: 10 },
+  { decade: "2010s", female: 7, male: 7, works: 2 },
+];
+
 const CunninghamPictogram = () => {
   const svgRef = useRef(null);
-
-  const data = [
-    { decade: "1940s", female: 25, male: 5, works: 18 },
-    { decade: "1950s", female: 28, male: 9, works: 40 },
-    { decade: "1960s", female: 12, male: 13, works: 22 },
-    { decade: "1970s", female: 18, male: 15, works: 15 },
-    { decade: "1980s", female: 21, male: 12, works: 25 },
-    { decade: "1990s", female: 16, male: 14, works: 18 },
-    { decade: "2000s", female: 16, male: 17, works: 10 },
-    { decade: "2010s", female: 7, male: 7, works: 2 },
-  ];
 
   useEffect(() => {
     if (!svgRef.current) return;
@@ -29,9 +29,11 @@ const CunninghamPictogram = () => {
     const rowHeight = iconSize + iconPadY;
     const decadeGap = 24;
 
-    const maxTotal = d3.max(data, (d) => d.female + d.male);
+    const maxTotal = d3.max(CHART_DATA, (d) => d.female + d.male);
     const maxRows = Math.ceil(maxTotal / iconsPerRow);
-    const maxWorksRows = Math.ceil(d3.max(data, (d) => d.works) / iconsPerRow);
+    const maxWorksRows = Math.ceil(
+      d3.max(CHART_DATA, (d) => d.works) / iconsPerRow,
+    );
     const decadeBlockHeight =
       Math.max(maxRows, maxWorksRows) * rowHeight + decadeGap;
 
@@ -46,7 +48,7 @@ const CunninghamPictogram = () => {
       sectionWidth +
       annotationWidth +
       margin.right;
-    const chartHeight = data.length * decadeBlockHeight;
+    const chartHeight = CHART_DATA.length * decadeBlockHeight;
     const totalHeight = margin.top + chartHeight + margin.bottom;
 
     const svg = d3
@@ -313,7 +315,7 @@ const CunninghamPictogram = () => {
       .attr("stroke-dasharray", "4,3");
 
     // Draw each decade
-    data.forEach((d, i) => {
+    CHART_DATA.forEach((d, i) => {
       const yOffset = margin.top + i * decadeBlockHeight;
 
       // Decade label
@@ -503,32 +505,68 @@ const CunninghamPictogram = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        width: "100%",
-        maxWidth: "860px",
-        height: "calc(100vh - 48px)",
-        margin: "24px auto",
-        padding: "16px",
-        background: "#ffffff",
-        borderRadius: "14px",
-        boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
-        border: "1px solid #eee",
-        boxSizing: "border-box",
-        overflow: "hidden",
-      }}
-    >
-      <svg
-        ref={svgRef}
+    <>
+      <section className="visually-hidden" aria-labelledby="chart-heading">
+        <h1 id="chart-heading">Merce Cunningham Dance Company pictogram</h1>
+        <p id="chart-description">
+          Historical project aggregate of stored female-dancer, male-dancer,
+          dancer-total, and premiered-work counts by decade. Each pictogram mark
+          represents one stored unit.
+        </p>
+        <table>
+          <caption>Stored pictogram values by decade</caption>
+          <thead>
+            <tr>
+              <th scope="col">Decade</th>
+              <th scope="col">Female</th>
+              <th scope="col">Male</th>
+              <th scope="col">Dancer total</th>
+              <th scope="col">Works</th>
+            </tr>
+          </thead>
+          <tbody>
+            {CHART_DATA.map((d) => (
+              <tr key={d.decade}>
+                <th scope="row">{d.decade}</th>
+                <td>{d.female}</td>
+                <td>{d.male}</td>
+                <td>{d.female + d.male}</td>
+                <td>{d.works}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+      <div
         style={{
           width: "100%",
-          height: "100%",
-          maxWidth: "100%",
-          maxHeight: "100%",
-          display: "block",
+          maxWidth: "860px",
+          height: "calc(100vh - 48px)",
+          margin: "24px auto",
+          padding: "16px",
+          background: "#ffffff",
+          borderRadius: "14px",
+          boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
+          border: "1px solid #eee",
+          boxSizing: "border-box",
+          overflow: "hidden",
         }}
-      />
-    </div>
+      >
+        <svg
+          ref={svgRef}
+          role="img"
+          aria-labelledby="chart-heading"
+          aria-describedby="chart-description"
+          style={{
+            width: "100%",
+            height: "100%",
+            maxWidth: "100%",
+            maxHeight: "100%",
+            display: "block",
+          }}
+        />
+      </div>
+    </>
   );
 };
 
